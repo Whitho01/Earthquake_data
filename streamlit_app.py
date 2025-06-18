@@ -12,8 +12,6 @@ df = pd.read_csv('earthquake_data.csv')
 df['time'] = pd.to_datetime(df['date_time'], dayfirst=True)
 df['year'] = df['time'].dt.year
 
-df = load_data()
-
 df_melted = df.melt(
     id_vars=['latitude', 'longitude', 'time', 'year', 'location'],
     value_vars=['magnitude', 'mmi', 'cdi', 'sig'],
