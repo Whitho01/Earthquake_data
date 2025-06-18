@@ -5,7 +5,6 @@ import altair as alt
 st.set_page_config(page_title="Global Earthquake Map", layout="wide")
 
 st.title("Global Earthquake Map")
-st.markdown("2001 through 2022")
 
 with st.expander("What do the intensity metrics mean?"):
     st.markdown("""
@@ -29,32 +28,32 @@ df_melted = df.melt(
     value_name='intensity'
 )
 
-
-year = st.sidebar.slider(
-    "Select Year",
-    min_value=int(df['year'].min()),
-    max_value=int(df['year'].max()),
-    value=int(df['year'].min()),
-    step=1
-)
-
-metric = st.sidebar.selectbox(
-    "Select Intensity Metric",
-    options=['magnitude', 'mmi', 'cdi', 'sig'],
-    index=0
-)
+with st.expander("🔧 Filter Options", expanded=True):
+    col1, col2 = st.columns(2)
+    with col1:
+        year = st.slider(
+            "Select Year",
+            min_value=int(df['year'].min()),
+            max_value=int(df['year'].max()),
+            value=int(df['year'].min()),
+            step=1
+        )
+    with col2:
+        metric = st.selectbox(
+            "Select Intensity Metric",
+            options=['magnitude', 'mmi', 'cdi', 'sig'],
+            index=0
+        )
 metric_values = df_melted[df_melted['metric'] == metric]['intensity']
 intensity_min = float(metric_values.min())
 intensity_max = float(metric_values.max())
 
-top_n = 5
-
 filtered = df_melted[
     (df_melted['year'] == year) &
     (df_melted['metric'] == metric) 
-]
-filtered = filtered.dropna(subset=['latitude', 'longitude', 'intensity'])
+].dropna(subset=['latitude', 'longitude', 'intensity'])
 
+st.markdown("### Summary")
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Year", year)
 col2.metric("Metric", metric.capitalize())
@@ -83,6 +82,7 @@ points = alt.Chart(filtered).mark_circle(opacity=0.7).encode(
 
 chart = base + points
 
+top_na = 5
 st.altair_chart(chart, use_container_width=True)
 if not filtered.empty:
     top_earthquakes = filtered.sort_values('intensity', ascending=False).head(top_n)
