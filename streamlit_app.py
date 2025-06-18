@@ -7,7 +7,6 @@ st.set_page_config(page_title="Global Earthquake Map", layout="wide")
 st.title("Global Earthquake Map")
 st.markdown("Interactively explore global earthquake data by year and metric.")
 
-# --- Load data ---
 df = pd.read_csv('earthquake_data.csv')
 df['time'] = pd.to_datetime(df['date_time'], dayfirst=True)
 df['year'] = df['time'].dt.year
@@ -53,11 +52,6 @@ col4.metric("Max Intensity", filtered['intensity'].max() if not filtered.empty e
 
 col5, col6 = st.columns(2)
 col5.metric("Average Intensity", round(filtered['intensity'].mean(), 2) if not filtered.empty else "N/A")
-
-st.markdown("### Summary Statistics")
-st.metric("Total Earthquakes", len(filtered))
-st.metric("Max Intensity", filtered['intensity'].max() if not filtered.empty else "N/A")
-st.metric("Average Intensity", round(filtered['intensity'].mean(), 2) if not filtered.empty else "N/A")
 
 world_map = alt.topo_feature('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json', 'countries')
 base = alt.Chart(world_map).mark_geoshape(
