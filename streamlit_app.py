@@ -20,7 +20,7 @@ df_melted = df.melt(
 )
 
 
-year = st.slider(
+year = st.sidebar.slider(
     "Select Year",
     min_value=int(df['year'].min()),
     max_value=int(df['year'].max()),
@@ -28,7 +28,7 @@ year = st.slider(
     step=1
 )
 
-metric = st.selectbox(
+metric = st.sidebar.selectbox(
     "Select Intensity Metric",
     options=['magnitude', 'mmi', 'cdi', 'sig'],
     index=0
