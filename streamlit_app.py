@@ -82,7 +82,7 @@ points = alt.Chart(filtered).mark_circle(opacity=0.7).encode(
 
 chart = base + points
 
-top_na = 5
+top_n = 5
 st.altair_chart(chart, use_container_width=True)
 if not filtered.empty:
     top_earthquakes = filtered.sort_values('intensity', ascending=False).head(top_n)
