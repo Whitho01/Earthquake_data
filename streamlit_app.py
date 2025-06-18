@@ -5,6 +5,7 @@ import altair as alt
 st.set_page_config(page_title="Global Earthquake Map", layout="wide")
 
 st.title("Global Earthquake Map")
+st.markdown("2001 through 2022")
 
 with st.expander("What do the intensity metrics mean?"):
     st.markdown("""
