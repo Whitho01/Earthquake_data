@@ -28,7 +28,7 @@ df_melted = df.melt(
     value_name='intensity'
 )
 
-with st.expander("🔧 Filter Options", expanded=True):
+with st.expander(" Filter Options", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
         year = st.slider(
@@ -57,7 +57,7 @@ st.markdown("### Summary")
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Year", year)
 col2.metric("Metric", metric.capitalize())
-col3.metric("Total EQs", len(filtered))
+col3.metric("Total Earthquakes", len(filtered))
 col4.metric("Max Intensity", filtered['intensity'].max() if not filtered.empty else "N/A")
 
 col5, col6 = st.columns(2)
