@@ -37,20 +37,11 @@ metric_values = df_melted[df_melted['metric'] == metric]['intensity']
 intensity_min = float(metric_values.min())
 intensity_max = float(metric_values.max())
 
-intensity_range = st.slider(
-    "Select Intensity Range",
-    min_value=intensity_min,
-    max_value=intensity_max,
-    value=(intensity_min, intensity_max)
-)
-
-top_n = st.slider("Show Top N Earthquakes", 5, 50, 10)
+top_n = 5
 
 filtered = df_melted[
     (df_melted['year'] == year) &
-    (df_melted['metric'] == metric) &
-    (df_melted['intensity'] >= intensity_range[0]) &
-    (df_melted['intensity'] <= intensity_range[1])
+    (df_melted['metric'] == metric) 
 ]
 filtered = filtered.dropna(subset=['latitude', 'longitude', 'intensity'])
 
