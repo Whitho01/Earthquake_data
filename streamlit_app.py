@@ -5,8 +5,18 @@ import altair as alt
 st.set_page_config(page_title="Global Earthquake Map", layout="wide")
 
 st.title("Global Earthquake Map")
-st.markdown("Interactively explore global earthquake data by year and metric.")
 
+with st.expander("What do the intensity metrics mean?"):
+    st.markdown("""
+    **Magnitude:** A measure of the energy released at the source of the earthquake.
+
+    **MMI (Modified Mercalli Intensity):** A subjective scale of shaking intensity based on observed effects.
+
+    **CDI (Community Determined Intensity):** Intensity based on reports from people experiencing the earthquake.
+
+    **SIG (Significance):** A calculated significance score considering magnitude, depth, and location.
+    """)
+    
 df = pd.read_csv('earthquake_data.csv')
 df['time'] = pd.to_datetime(df['date_time'], dayfirst=True)
 df['year'] = df['time'].dt.year
