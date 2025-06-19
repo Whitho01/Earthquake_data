@@ -85,7 +85,7 @@ if not filtered.empty:
         data=filtered,
         get_position='[longitude, latitude]',
         get_color='[255, 140, 0, 160]',
-        get_radius=50000,  
+        get_radius=100000,  
         pickable=True,
         tooltip=True,
     )
