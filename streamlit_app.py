@@ -29,6 +29,20 @@ df_melted = df.melt(
     value_name='intensity'
 )
 
+yearly_avg = df_melted[df_melted['metric'] == metric].groupby('year')['intensity'].mean().reset_index()
+
+line_chart = alt.Chart(yearly_avg).mark_line(point=True).encode(
+    x=alt.X('year:O', title='Year'),  # O = ordinal so years show as categories on axis
+    y=alt.Y('intensity:Q', title=f'Average {metric.capitalize()} Intensity'),
+    tooltip=[alt.Tooltip('year:O', title='Year'), alt.Tooltip('intensity:Q', title='Avg Intensity', format='.2f')]
+).properties(
+    width=700,
+    height=300,
+    title=f"Average {metric.capitalize()} Intensity Over Years"
+).interactive()
+
+st.altair_chart(line_chart, use_container_width=True)
+
 with st.expander(" Filter Options", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
