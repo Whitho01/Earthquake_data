@@ -68,8 +68,9 @@ col5.metric("Average Intensity", round(filtered['intensity'].mean(), 2) if not f
 
 if not filtered.empty:
     st.markdown("### Earthquake Map (Zoomable)")
-
-    # Set view to center on the mean of the filtered data
+    
+    filtered['time_str'] = filtered['time'].dt.strftime("%Y-%m-%d %H:%M:%S")
+    
     midpoint = (filtered["latitude"].mean(), filtered["longitude"].mean())
 
     view_state = pdk.ViewState(
@@ -84,7 +85,7 @@ if not filtered.empty:
         data=filtered,
         get_position='[longitude, latitude]',
         get_color='[255, 140, 0, 160]',
-        get_radius=50000,  # adjust radius or tie to intensity
+        get_radius=50000,  
         pickable=True,
         tooltip=True,
     )
