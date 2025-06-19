@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import pydeck as pdk
 
 st.set_page_config(page_title="Global Earthquake Map", layout="wide")
 
@@ -63,25 +64,49 @@ col4.metric("Max Intensity", filtered['intensity'].max() if not filtered.empty e
 col5, col6 = st.columns(2)
 col5.metric("Average Intensity", round(filtered['intensity'].mean(), 2) if not filtered.empty else "N/A")
 
-world_map = alt.topo_feature('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json', 'countries')
-base = alt.Chart(world_map).mark_geoshape(
-    fill='lightgray',
-    stroke='white'
-).project('equirectangular').properties(
-    width=900,
-    height=500
-)
+#Added changes here!
 
-points = alt.Chart(filtered).mark_circle(opacity=0.7).encode(
-    longitude='longitude:Q',
-    latitude='latitude:Q',
-    size=alt.value(100),
-    color=alt.Color('intensity:Q', scale=alt.Scale(scheme='viridis'), legend = alt.Legend(title = "Intensity")
-                   ),
-    tooltip=['location:N', 'time:T', 'intensity:Q']
-)
+if not filtered.empty:
+    st.markdown("### Earthquake Map (Zoomable)")
 
-chart = base + points
+    # Set view to center on the mean of the filtered data
+    midpoint = (filtered["latitude"].mean(), filtered["longitude"].mean())
+
+    view_state = pdk.ViewState(
+        latitude=midpoint[0],
+        longitude=midpoint[1],
+        zoom=2,  # You can change this default zoom level
+        pitch=0,
+    )
+
+    layer = pdk.Layer(
+        "ScatterplotLayer",
+        data=filtered,
+        get_position='[longitude, latitude]',
+        get_color='[255, 140, 0, 160]',
+        get_radius=50000,  # adjust radius or tie to intensity
+        pickable=True,
+        tooltip=True,
+    )
+
+    tooltip = {
+        "html": "<b>Location:</b> {location}<br/>"
+                "<b>Time:</b> {time}<br/>"
+                "<b>Intensity:</b> {intensity}",
+        "style": {"backgroundColor": "steelblue", "color": "white"},
+    }
+
+    deck = pdk.Deck(
+        layers=[layer],
+        initial_view_state=view_state,
+        tooltip=tooltip,
+        map_style="mapbox://styles/mapbox/light-v9"
+    )
+
+    st.pydeck_chart(deck)
+else:
+    st.write("No earthquakes match the filters.")
+
 
 top_n = 5
 st.altair_chart(chart, use_container_width=True)
