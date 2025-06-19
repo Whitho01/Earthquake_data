@@ -117,4 +117,9 @@ if not filtered.empty:
 else:
     st.write("No earthquakes match the filters.")
 
+top_n = 5
+top_earthquakes = filtered.sort_values('intensity', ascending=False).head(top_n)
+
+st.markdown(f"### Top {top_n} Strongest Earthquakes in {year}")
+st.dataframe(top_earthquakes[['time_str', 'location', 'intensity', 'latitude', 'longitude']])
 
