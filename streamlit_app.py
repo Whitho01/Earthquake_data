@@ -84,7 +84,7 @@ if not filtered.empty:
         "ScatterplotLayer",
         data=filtered,
         get_position='[longitude, latitude]',
-        get_color='[255, 140, 0, 160]',
+        get_color='[128, 0, 128, 180]',
         get_radius=100000,  
         pickable=True,
         tooltip=True,
