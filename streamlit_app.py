@@ -75,7 +75,7 @@ base = alt.Chart(world_map).mark_geoshape(
 points = alt.Chart(filtered).mark_circle(opacity=0.7).encode(
     longitude='longitude:Q',
     latitude='latitude:Q',
-    size=alt.value(60),
+    size=alt.value(100),
     color=alt.Color('intensity:Q', scale=alt.Scale(scheme='viridis'), legend = alt.Legend(title = "Intensity")
                    ),
     tooltip=['location:N', 'time:T', 'intensity:Q']
