@@ -91,11 +91,20 @@ if not filtered.empty:
     )
 
     tooltip = {
-        "html": "<b>Location:</b> {location}<br/>"
-                "<b>Time:</b> {time}<br/>"
-                "<b>Intensity:</b> {intensity}",
-        "style": {"backgroundColor": "steelblue", "color": "white"},
-    }
+    "html": """
+    <div style="font-size: 16px; padding: 8px; max-width: 250px;">
+        <b>📍 Location:</b> {location}<br/>
+        <b>🕒 Time:</b> {time_str}<br/>
+        <b>📈 Intensity:</b> {intensity}
+    </div>
+    """,
+    "style": {
+        "backgroundColor": "#1f2937",  # dark gray
+        "color": "white",
+        "borderRadius": "8px",
+        "boxShadow": "2px 2px 6px rgba(0,0,0,0.3)"
+    },
+}
 
     deck = pdk.Deck(
         layers=[layer],
