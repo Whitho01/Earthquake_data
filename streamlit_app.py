@@ -100,7 +100,7 @@ if not filtered.empty:
         layers=[layer],
         initial_view_state=view_state,
         tooltip=tooltip,
-        map_style="mapbox://styles/mapbox/light-v9"
+        map_style="light"
     )
 
     st.pydeck_chart(deck)
