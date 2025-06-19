@@ -108,11 +108,3 @@ else:
     st.write("No earthquakes match the filters.")
 
 
-top_n = 5
-st.altair_chart(chart, use_container_width=True)
-if not filtered.empty:
-    top_earthquakes = filtered.sort_values('intensity', ascending=False).head(top_n)
-    st.markdown(f"### Top {top_n} Strongest Earthquakes")
-    st.dataframe(top_earthquakes[['time', 'location', 'intensity', 'latitude', 'longitude']])
-else:
-    st.write("No earthquakes match the filters.")
